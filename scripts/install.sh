@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# MiPlay - Linux, macOS & Termux 极速一键部署脚本 (2026 标准)
+# MiXPlay - Linux, macOS & Termux 极速一键部署脚本 (2026 标准)
 #
 # 用法：
 #   一键安装并启动:
-#     curl -fsSL https://raw.githubusercontent.com/juneix/MiPlay/main/scripts/install.sh | bash
+#     curl -fsSL https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.sh | bash
 #   一键卸载:
-#     curl -fsSL https://raw.githubusercontent.com/juneix/MiPlay/main/scripts/install.sh | bash -s -- --uninstall
+#     curl -fsSL https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.sh | bash -s -- --uninstall
 # ==============================================================================
 
 set -e
@@ -18,14 +18,14 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 INSTALL_DIR="/usr/local/bin"
-BIN_NAME="miplay"
+BIN_NAME="mixplay"
 BIN_PATH="${INSTALL_DIR}/${BIN_NAME}"
-SERVICE_FILE="/etc/systemd/system/miplay.service"
+SERVICE_FILE="/etc/systemd/system/mixplay.service"
 
-REPO="juneix/MiPlay"
+REPO="juneix/MiXPlay"
 
 echo -e "${BLUE}====================================================${NC}"
-echo -e "${BLUE}               🔊 MiPlay 一键部署脚本               ${NC}"
+echo -e "${BLUE}               🔊 MiXPlay 一键部署脚本               ${NC}"
 echo -e "${BLUE}            作者：@谢週五（犹豫 94 想买）           ${NC}"
 echo -e "${BLUE}             官网：https://5nav.eu.org             ${NC}"
 echo -e "${BLUE}====================================================${NC}"
@@ -51,19 +51,19 @@ fi
 
 # ==================== 1. 卸载流程 ====================
 if [ "$1" = "--uninstall" ] || [ "$1" = "uninstall" ]; then
-    echo -e "${YELLOW}[!] 开始卸载 MiPlay...${NC}"
+    echo -e "${YELLOW}[!] 开始卸载 MiXPlay...${NC}"
     
     # 停止并删除 systemd 服务
     if command -v systemctl >/dev/null 2>&1 && [ -f "$SERVICE_FILE" ]; then
         echo -e "正在停止并注销系统服务..."
-        systemctl disable --now miplay >/dev/null 2>&1 || true
+        systemctl disable --now mixplay >/dev/null 2>&1 || true
         rm -f "$SERVICE_FILE"
         systemctl daemon-reload >/dev/null 2>&1 || true
     fi
 
     # 删除 uv tool
     if command -v uv >/dev/null 2>&1; then
-        uv tool uninstall miplay-hub >/dev/null 2>&1 || uv tool uninstall miplay >/dev/null 2>&1 || true
+        uv tool uninstall mixplay-hub >/dev/null 2>&1 || uv tool uninstall mixplay >/dev/null 2>&1 || true
     fi
 
     # 删除二进制文件
@@ -71,10 +71,10 @@ if [ "$1" = "--uninstall" ] || [ "$1" = "uninstall" ]; then
         echo -e "正在清理可执行文件: ${BIN_PATH}..."
         rm -f "$BIN_PATH"
     fi
-    rm -f "$HOME/.local/bin/miplay" "$HOME/.local/bin/miplay-desktop" "$HOME/Desktop/MiPlay.command" 2>/dev/null || true
+    rm -f "$HOME/.local/bin/mixplay" "$HOME/.local/bin/mixplay-desktop" "$HOME/Desktop/MiXPlay.command" 2>/dev/null || true
 
-    echo -e "${GREEN}🎉 [✓] MiPlay 已成功卸载！${NC}"
-    echo -e "${YELLOW}注：用户配置文件 ~/.config/miplay 已完整保留，如需彻底清除请手动执行: rm -rf ~/.config/miplay${NC}"
+    echo -e "${GREEN}🎉 [✓] MiXPlay 已成功卸载！${NC}"
+    echo -e "${YELLOW}注：用户配置文件 ~/.config/mixplay 已完整保留，如需彻底清除请手动执行: rm -rf ~/.config/mixplay${NC}"
     exit 0
 fi
 
@@ -136,16 +136,16 @@ fi
 
 echo -e "${GREEN}✓ uv 就绪: $(uv --version)${NC}"
 
-# ==================== 4. 安装 miplay-hub ====================
-echo -e "正在安装 ${GREEN}miplay-hub${NC}..."
+# ==================== 4. 安装 mixplay-hub ====================
+echo -e "正在安装 ${GREEN}mixplay-hub${NC}..."
 
 # 直接使用 uv tool install 安装
 # 若国内镜像源尚未同步完成，自动回退官方源
-uv tool install --force miplay-hub || uv tool install --force --default-index https://pypi.org/simple miplay-hub
+uv tool install --force --python 3.12 mixplay-hub || uv tool install --force --python 3.12 --default-index https://pypi.org/simple mixplay-hub
 
-USER_BIN="$HOME/.local/bin/miplay"
+USER_BIN="$HOME/.local/bin/mixplay"
 if [ ! -f "$USER_BIN" ]; then
-    USER_BIN="$(command -v miplay 2>/dev/null || true)"
+    USER_BIN="$(command -v mixplay 2>/dev/null || true)"
 fi
 
 # 软链接到全局 /usr/local/bin (若有权限)
@@ -160,7 +160,7 @@ fi
 # ==================== 5. 注册后台自启服务或桌面快捷方式 ====================
 OS="$(uname -s)"
 if [ "$OS" = "Linux" ] && command -v systemctl >/dev/null 2>&1 && [ -d "/run/systemd/system" ]; then
-    echo -n "👉 是否开机自启动 MiPlay？[Y/n] (回车默认 Y): "
+    echo -n "👉 是否开机自启动 MiXPlay？[Y/n] (回车默认 Y): "
     read -r AUTO_START < /dev/tty 2>/dev/null || read -r AUTO_START || true
     AUTO_START="${AUTO_START:-y}"
     echo ""
@@ -173,18 +173,18 @@ if [ "$OS" = "Linux" ] && command -v systemctl >/dev/null 2>&1 && [ -d "/run/sys
             "$USER_BIN" service install || true
         fi
     else
-        echo -e "${YELLOW}[i] 已跳过开机自启（后续可随时手动运行: ${GREEN}miplay service install${YELLOW} 开启）。${NC}"
+        echo -e "${YELLOW}[i] 已跳过开机自启（后续可随时手动运行: ${GREEN}mixplay service install${YELLOW} 开启）。${NC}"
     fi
 elif [ "$OS" = "Darwin" ]; then
     DESKTOP_DIR="$HOME/Desktop"
     if [ -d "$DESKTOP_DIR" ]; then
-        cat << 'EOF_MAC' > "$DESKTOP_DIR/MiPlay.command"
+        cat << 'EOF_MAC' > "$DESKTOP_DIR/MiXPlay.command"
 #!/usr/bin/env bash
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
-miplay-desktop &
+mixplay-desktop &
 EOF_MAC
-        chmod +x "$DESKTOP_DIR/MiPlay.command"
-        echo -e "${GREEN}✓ 已在桌面生成启动快捷方式: ~/Desktop/MiPlay.command${NC}"
+        chmod +x "$DESKTOP_DIR/MiXPlay.command"
+        echo -e "${GREEN}✓ 已在桌面生成启动快捷方式: ~/Desktop/MiXPlay.command${NC}"
     fi
 fi
 
@@ -220,7 +220,7 @@ get_local_ip() {
 
 LOCAL_IP="$(get_local_ip)"
 
-echo -e "\n${GREEN}🎉 MiPlay 一键部署完毕！更多内容请访问：${BLUE}https://5nav.eu.org${NC}"
-echo -e "👉 桌面用户：双击桌面快捷方式或运行: ${GREEN}miplay-desktop${NC}"
-echo -e "👉 命令行/NAS用户：运行服务: ${GREEN}miplay serve -d${NC}，停止服务: ${GREEN}miplay stop${NC}"
+echo -e "\n${GREEN}🎉 MiXPlay 一键部署完毕！更多内容请访问：${BLUE}https://5nav.eu.org${NC}"
+echo -e "👉 桌面用户：双击桌面快捷方式或运行: ${GREEN}mixplay-desktop${NC}"
+echo -e "👉 命令行/NAS用户：运行服务: ${GREEN}mixplay serve -d${NC}，停止服务: ${GREEN}mixplay stop${NC}"
 echo -e "👉 Web 控制台: ${BLUE}http://${LOCAL_IP}:8820${NC}\n"
