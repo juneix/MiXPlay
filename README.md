@@ -1,26 +1,14 @@
 # MiXPlay 
 
-MiXPlay（隔空妙播）是一个面向局域网的**开放式音频中枢**，它融合了 AirPlay（隔空播放）、小米妙播（MiPlay）协议等多种音频能力，内置首发🔥`MiXPlay 全屋播放`，另有 `Web 虚拟音箱`、`通用音频 API`、`兼容 OwnTone` 等开放式玩法。
+MiXPlay（隔空妙播）是一个面向局域网的`开放式音频中枢`，融合 `AirPlay` 隔空播放、`MiPlay`小米妙播、`DLNA`、Plex/Caldera、OwnTone、API 等多种音频协议，搭载独家定制的全屋播放引擎，打破生态壁垒：除了**米果互通**，普通安卓与传统音箱也能解锁新玩法！
 
-### 📢 上游鸣谢与开源合规说明
 
-本项目的基础协议桥接能力整合了以下优秀的开源组件：
-- **小米账号与云端通讯**：[miservice-fork](https://pypi.org/project/miservice-fork/) (MIT)
-- **小米妙播协议（MiPlay）**：[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android) (MIT)
-- **隔空播放（AirPlay 1/2）**：[shairplay-rust](https://github.com/metaneutrons/shairplay-rust) (LGPL-3.0)
-
-> **💡 灵感与思路参考**：
-> 本项目在开发与设计过程中，还参考了以下社区项目的思路并进行了重构与自用优化，在此特别致谢：
-> - [MiAir](https://github.com/KiriChen-Wind/MiAir) / [miair-next](https://github.com/deerwan/miair-next) / [XiaoMusic](https://github.com/hanxi/xiaomusic)
-
-**📌 功能边界与授权说明**：
-- **基础免费能力**：基于上述上游组件实现的单设备直通播放、单机声卡输出、小米音箱 1v1 桥接等基础功能**完全免费开放使用**。
-- **自研赞助模块**：本项目自研的 `Audio Hub 音频流转中枢`、`MiXPlay 全屋同步播放`、`Web 虚拟音箱集群`等组合玩法属于个人定制扩展，作为可选的赞助解锁功能。
-- **第三方开源许可全文**：详见项目中的 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) 与 [LICENSE](./LICENSE)。
 
 ![mixplay-1.webp](./img/mixplay-1.webp)
 
 ![mixplay-2.webp](./img/mixplay-2.webp)
+
+---
 
 ## ✨ 功能特色
 
@@ -33,23 +21,29 @@ MiXPlay（隔空妙播）是一个面向局域网的**开放式音频中枢**，
   - OwnTone 支持 AirPlay 1&2、Chromecast、DLNA 等
 - 📦 **多平台通用**：支持 Windows、macOS、Linux、Android Termux 及 Docker 部署
 
-> MiXPlay 内置纯 Rust 原生 AirPlay 驱动（原生支持 AirPlay 2 及 AirPlay 1 协议），无需安装复杂的 C 语言依赖即可享受极低延迟无损直通。
+MiXPlay 与苹果、小米、Plex 公司无关，作为局域网音频中枢必须在 NAS、PC、Mac 上运行`服务端`，覆盖多种音频协议和音箱设备，可玩性强但不适合所有人。
 
-### 📊 音频方案与协议对比
+### 📊 音频方案对比
 
 | 对比维度 | MiXPlay | AirPlay 1| AirPlay 2 | DLNA | 小米妙播 |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **系统级音频投射** | ✅ 全家桶 | ✅ 全家桶 | ✅ 全家桶 | ❌ 部分 App |  ✅ 全家桶 |
+| **系统级音频投射** | ☑️ 支持 | ✅ 苹果 | ✅ 苹果 | ❌ 部分 App |  ✅ 小米 |
 | **多房间同步播放** | ✅ 支持 | ☑️ 仅限 iTunes | ✅ 支持 | ❌ 不支持 | ✅ 支持 |
 | **音频通信链路** | ☑️ 同步串流 | ☑️ 同步串流 | ✅ 独立协同 | ☑️ 分离遥控 | ✅ 独立协同 |
-| **小米音箱兼容性** | ✅ 全系音箱 | ☑️ Sound 系列  | ☑️ Sound 系列 | ☑️ 部分音箱 | ☑️ 部分音箱 |
-| **OwnTone 兼容性** | ✅ 支持 | ✅ 支持  | ✅ 支持| ☑️ 部分音箱 | ❌ 不支持 |
-| **小米妙播兼容性** | ✅ 支持 | ❌ 不支持  | ❌ 不支持| ❌ 不支持 | ☑️ 部分音箱 |
+| **小米音箱** | ✅ 全系音箱* | ☑️ Sound 系列  | ☑️ Sound 系列 | ☑️ 部分音箱 | ☑️ 部分音箱 |
+| **Plex/Caldera** | ✅ 原生支持 | ☑️ 安装 App  | ☑️ 安装 App | ❌ 不支持 | ☑️ 安装 App  |
+| **OwnTone** | ✅ 支持 | ✅ 支持  | ✅ 支持| ✅ 支持 | ❌ 不支持 |
+| **通用安卓*** | ✅ 支持 | ❌ 不支持  | ❌ 不支持 | ✅ 支持 | ❌ 不支持  |
 | **硬件加密门槛** |  ✅ 无门槛 | ☑️ 苹果授权 | ☑️ 苹果授权 | ✅ 无门槛 | 🔒 小米独占 |
 
 > 🔊 **MiXPlay 支持音箱列表** ➡️ [点我跳转查看](./speaker.md)
 
-### 🎵 音频处理与格式支持
+### 🤖 安卓特殊玩法
+- 接收端，使用[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android)，支持 AirPlay2、小米妙播、DLNA 接收功能
+- 发射端，使用[centuryplay](https://github.com/g8row/centuryplay)，安卓 10+ 支持串流系统音频到 AirPlay 音箱
+
+
+### 🎵 音频格式支持
 
 * **原生直连格式**：`.mp3`、`.m4a`、`.flac`、`.wav`、`.m3u8`
   - 小米音箱硬件原生解码，音频数据由中枢直接转发，0 额外 CPU 转码开销，无损低延迟。
@@ -61,9 +55,7 @@ MiXPlay（隔空妙播）是一个面向局域网的**开放式音频中枢**，
 - 小米音箱自带 DLNA 功能不完整，第三方 DLNA 需额外适配，体验依然不完美
 - 如果需要第三方 DLNA 功能，推荐使用 MiAir、miair-next 等项目
 
-
 ---
-
 ## ❤️ 支持项目
 
 - 打赏鼓励：支持我开发更多有趣应用
@@ -85,82 +77,82 @@ MiXPlay（隔空妙播）是一个面向局域网的**开放式音频中枢**，
   </table>
 </div>
 
-
-
 ---
+## 🚀 安装方式
 
-## 🚀 安装与运行方式
+MiXPlay 目前支持以下主流平台和架构：
+| 平台/架构 |  x86_64 | arm64 |
+| :---: | :---: | :---: |
+| Linux/NAS | ✅ | ✅ |
+| macOS | ❌ | ✅ |
+| Windows | ✅ | ❌ |
 
-### 1、Docker 容器部署
+### 1、NAS（飞牛&Docker）
+飞牛商店【🔍MiXPlay - 隔空妙播】，其他 NAS 可使用 Docker 版
 
-#### Docker Compose（推荐 NAS / 服务器）
-
-```yaml
+```bash
 services:
   mixplay:
-    #image: docker.1ms.run/juneix/mixplay # 毫秒镜像加速
     image: ghcr.io/juneix/mixplay
+    # image: docker.1ms.run/juneix/mixplay  # 毫秒镜像加速
     container_name: mixplay
     network_mode: host
-    restart: always
+    restart: unless-stopped
     environment:
       WEB_PORT: 8820
+    devices:
+      - /dev/snd:/dev/snd
     volumes:
       - ./conf:/app/conf
       - /etc/machine-id:/host/etc/machine-id:ro
 ```
 
-#### Docker CLI
 
+### 2、桌面端
+
+a. 安装 uv 环境   
+🍎 macOS / 🐧Linux
 ```bash
-docker run -d \
-  --name mixplay \
-  --network host \
-  --restart always \
-  -e WEB_PORT=8820 \
-  -v "${PWD}/conf:/app/conf" \
-  -v "/etc/machine-id:/host/etc/machine-id:ro" \
-  ghcr.io/juneix/mixplay
-  # docker.1ms.run/juneix/mixplay # 毫秒镜像加速
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
-
----
-
-### 2、飞牛应用商店 (fnOS)
-
-在飞牛 fnOS 应用中心搜索【MiXPlay - 隔空妙播】即可在线一键安装。
-
-![mixplay-3.webp](./img/mixplay-3.webp)
-
----
-
-### 3、全平台通用
-
-#### a. 已有 uv 环境
+🪟 Windows
+```bash
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+b. 安装 mixplay
 ```bash
 uv tool install --python 3.12 mixplay-hub
 ```
 
-#### b. 一键安装 uv 和 mixplay
-```bash
-# 🐧 Linux / 🍎 macOS / 📱 安卓 Termux (Linux 自动注册 Systemd 开机自启服务，Mac 自动生成桌面快捷方式)
-curl -fsSL https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.sh | bash
-
-# 国内加速
-curl -fsSL https://gh-proxy.org/https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.sh | bash
-
-# 🪟 Windows (PowerShell 一键安装，自动生成桌面快捷方式)
-powershell -ExecutionPolicy ByPass -c "irm https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.ps1 | iex"
-
-# 国内加速
-powershell -ExecutionPolicy ByPass -c "irm https://gh-proxy.org/https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/install.ps1 | iex"
-```
-
-> 💡 **日常使用**：
-> - **桌面用户**：双击桌面的 **MiXPlay 快捷方式**（或运行 `mixplay-desktop`），自动常驻系统托盘并拉起网页控制台，右键托盘图标可快速打开控制台、查看日志或退出；
-> - **服务器/NAS 用户**：后台守护模式运行 `mixplay serve -d`，停止服务运行 `mixplay stop`。
+打开终端输入 `mixplay-desktop`，自动后台运行，系统托盘可快速打开控制台、查看日志或退出。
 
 
+## 🎈 版本区别
+
+| 功能 | 普通用户 | 头号玩家 |
+| :---: | :---: | :---: |
+| Audio Hub 音频中枢 | ☑️ | ✅ |
+| 小米音箱➡️AirPlay1 | ☑️ | ✅ |
+| 服务端音箱➡️AirPlay1、妙播、DLNA | ☑️ | ✅ |
+| AirPlay2 | ❌ | ✅ |
+| 全屋播放、串流节点 | ❌  | ✅ |
+| Plex/Caldera | ❌  | ✅ |
+
+### 📢 上游鸣谢与合规说明
+
+本项目的基础协议、桥接能力整合了以下优秀的开源组件：
+- **小米云服务**：[miservice-fork](https://pypi.org/project/miservice-fork/) (MIT)
+- **小米妙播（MiPlay）**：[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android) (MIT)
+- **隔空播放（AirPlay 1/2）**：[shairplay-rust](https://github.com/metaneutrons/shairplay-rust) (LGPL-3.0)
+
+> **💡 灵感与思路参考**：
+> 本项目在开发与设计过程中，还参考了以下社区项目的思路并进行了重构与自用优化，在此特别致谢：
+> - [MiAir](https://github.com/KiriChen-Wind/MiAir) / [miair-next](https://github.com/deerwan/miair-next) / [XiaoMusic](https://github.com/hanxi/xiaomusic)
+
+**📌 功能边界与授权说明**：
+- **基础免费能力**：基于上述上游组件实现的基础功能**免费开放使用**。
+- **自研定制模块**：本项目自研的 `Audio Hub 音频中枢`、`MiXPlay 全屋播放`、`串流节点延迟对齐` 等组合玩法属于定制扩展包，仅供**头号玩家预览体验**。
+- **第三方开源许可全文**：详见项目中的 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) 与 [LICENSE](./LICENSE)。
 ---
 
 ## 🔐 小米账号与登录凭证说明
