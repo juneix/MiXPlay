@@ -12,12 +12,11 @@ MiXPlay（隔空妙播）是一个面向局域网的`开放式音频中枢`，�
 
 ## ✨ 功能特色
 
-- **多协议融合**：AirPlay、MiPlay、DLNA、Plex/Caldera、OwnTone、API 一站式接入
-- **全屋播放引擎**：独家定制，全屋音箱同步播放
-- **原生桥接**：Python + Rust 原生桥接，低延迟轻负载
-- **开箱即用**：网页控制台即开即用，米家扫码一键登录
+- **多协议融合**：AirPlay、MiPlay、DLNA、Plex/Caldera、OwnTone、API等
+- **音乐串流**：普通音箱独立推流，全屋音箱同步播放
+- **轻装上阵**：Python + Rust 原生桥接，低延迟轻负载
+- **操作简单**：网页控制台开箱即用，米家扫码一键登录
 - **无损音乐**：最高支持 7.1 声道、192kHz/24bit 音频流
-- **独立推流**：普通音箱独立推流，安卓与传统音箱焕发新生
 - **多平台通用**：支持 NAS、PC、Mac、Docker 部署服务端
 
 MiXPlay 与苹果、小米、Plex 公司无关，作为局域网音频中枢必须运行`服务端`，覆盖多种音频协议和音箱设备，可玩性强但不适合所有人。
@@ -110,7 +109,7 @@ services:
 ### 2、桌面端
 
 a. 安装 uv 环境   
-🍎 macOS / 🐧Linux
+🍎 macOS / 🐧 Linux
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
