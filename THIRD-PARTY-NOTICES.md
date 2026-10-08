@@ -4,10 +4,10 @@ MiXPlay (MiPlay) incorporates, references, or bridges components from the follow
 
 ---
 
-## 1. miservice-fork
-- **Project**: [miservice-fork](https://pypi.org/project/miservice-fork/)
+## 1. miservice
+- **Project**: [miservice](https://pypi.org/project/miservice/)
 - **License**: MIT License
-- **Usage**: 小米账号登录凭证与米家云端接口通讯（Mina / Mi Home API 接入）
+- **Usage**: 小米账号登录凭证与米家云端及本地协议通讯（Mina / MiIO API 接入）
 
 ```
 MIT License

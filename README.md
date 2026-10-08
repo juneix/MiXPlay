@@ -1,7 +1,6 @@
 # MiXPlay 
 
-MiXPlay（隔空妙播）是一个面向局域网的`开放式音频中枢`，融合 `AirPlay` 隔空播放、`MiPlay`小米妙播、`DLNA`、Plex/Caldera、OwnTone、API 等多种音频协议，搭载独家定制的全屋播放引擎，打破生态壁垒：除了**米果互通**，普通安卓与传统音箱也能解锁新玩法！
-
+MiXPlay（隔空妙播）是一个面向局域网的`开放式音频中枢`，它融合了 `AirPlay` 隔空播放、`MiPlay`小米妙播、`DLNA`、OwnTone、API 等多种音频协议，搭载独家定制的`全屋播放引擎`，打破生态壁垒：除了**米果互通**，普通安卓与传统音箱也能解锁新玩法！
 
 
 ![mixplay-1.webp](./img/mixplay-1.webp)
@@ -12,14 +11,14 @@ MiXPlay（隔空妙播）是一个面向局域网的`开放式音频中枢`，�
 
 ## ✨ 功能特色
 
-- **多协议融合**：AirPlay、MiPlay、DLNA、Plex/Caldera、OwnTone、API等
+- **多协议融合**：AirPlay、MiPlay、DLNA、OwnTone、API等
 - **音乐串流**：普通音箱独立推流，全屋音箱同步播放
 - **轻装上阵**：Python + Rust 原生桥接，低延迟轻负载
 - **操作简单**：网页控制台开箱即用，米家扫码一键登录
 - **无损音乐**：最高支持 7.1 声道、192kHz/24bit 音频流
 - **多平台通用**：支持 NAS、PC、Mac、Docker 部署服务端
 
-MiXPlay 与苹果、小米、Plex 公司无关，作为局域网音频中枢必须运行`服务端`，覆盖多种音频协议和音箱设备，可玩性强但不适合所有人。
+MiXPlay 与苹果、小米公司无关，作为局域网音频中枢必须在 NAS、PC、Mac、Docker 上运行`服务端`，覆盖多种音频协议和音箱设备，可玩性强但不适合所有人。
 
 ### 📊 音频方案对比
 
@@ -28,27 +27,25 @@ MiXPlay 与苹果、小米、Plex 公司无关，作为局域网音频中枢必�
 | **系统级音频投射** | ☑️ 支持 | ✅ 苹果 | ✅ 苹果 | ❌ 部分 App |  ✅ 小米 |
 | **多房间同步播放** | ✅ 支持 | ☑️ 仅限 iTunes | ✅ 支持 | ❌ 不支持 | ✅ 支持 |
 | **音频通信链路** | ☑️ 同步串流 | ☑️ 同步串流 | ✅ 独立协同 | ☑️ 分离遥控 | ✅ 独立协同 |
-| **小米音箱** | ✅ 全系音箱* | ☑️ Sound 系列  | ☑️ Sound 系列 | ☑️ 部分音箱 | ☑️ 部分音箱 |
-| **Plex/Caldera** | ✅ 原生支持 | ☑️ 安装 App  | ☑️ 安装 App | ❌ 不支持 | ☑️ 安装 App  |
+| **小爱音箱** | ✅ 全系音箱* | ☑️ Sound 系列  | ☑️ Sound 系列 | ☑️ 部分音箱 | ☑️ 部分音箱 |
 | **OwnTone** | ✅ 支持 | ✅ 支持  | ✅ 支持| ✅ 支持 | ❌ 不支持 |
 | **通用安卓*** | ✅ 支持 | ❌ 不支持  | ❌ 不支持 | ✅ 支持 | ❌ 不支持  |
 | **硬件加密门槛** |  ✅ 无门槛 | ☑️ 苹果授权 | ☑️ 苹果授权 | ✅ 无门槛 | 🔒 小米独占 |
 
 > 🔊 **MiXPlay 支持音箱列表** ➡️ [点我跳转查看](./speaker.md)
 
-### 🤖 安卓特殊玩法
-- 接收端，使用[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android)，支持 AirPlay2、小米妙播、DLNA 接收功能
-- 发射端，使用[centuryplay](https://github.com/g8row/centuryplay)，安卓 10+ 支持串流系统音频到 AirPlay 音箱
+### 🤖 手机平板特殊玩法
+- 接收端，安卓使用[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android)，支持 AirPlay2、小米妙播、DLNA 接收功能
+- 发射端，安卓使用[centuryplay](https://github.com/g8row/centuryplay)，安卓 10+ 支持串流系统音频到 AirPlay 音箱
+- 发射端，鸿蒙使用[音桥·阿西西](https://appgallery.huawei.com/app/detail?id=cn.axi.audio)，支持串流系统音频到 AirPlay 音箱
 
 
 ### 🎵 音频格式支持
 
 * **原生直连格式**：`.mp3`、`.m4a`、`.flac`、`.wav`、`.m3u8`
-  - 小米音箱硬件原生解码，音频数据由中枢直接转发，0 额外 CPU 转码开销，无损低延迟。
-* **中枢转码扩展**：
-  - 内置静态编译 **FFmpeg** 引擎，支持将非标准流实时转码推流至各个音箱端。
+  - 小爱音箱硬件原生解码，音频数据由中枢直接转发，0 额外 CPU 转码开销，无损低延迟。
 
-⚠️ 本项目主要是完善苹果用户的小米音箱 ✖️ AirPlay 体验，暂不考虑 DLNA 功能。
+⚠️ 本项目主要是完善苹果用户的小爱音箱 ✖️ AirPlay 体验，暂不考虑 DLNA 功能。
 - DLNA 是一个古早的音频协议，虽然新老设备都能用，但体验不太好、稳定性欠佳
 - 小米音箱自带 DLNA 功能不完整，第三方 DLNA 需额外适配，体验依然不完美
 - 如果需要第三方 DLNA 功能，推荐使用 MiAir、miair-next 等项目
@@ -85,8 +82,9 @@ MiXPlay 目前支持以下主流平台和架构：
 | macOS | ❌ | ✅ |
 | Windows | ✅ | ❌ |
 
-### 1、NAS（飞牛&Docker）
+### 1、NAS（飞牛 & Docker）
 飞牛商店【🔍MiXPlay - 隔空妙播】，其他 NAS 可使用 Docker 版
+> 2026.10.8 飞牛商店审核中暂未上架，可加群获取内测版 fpk 文件手动安装
 
 ```bash
 services:
@@ -97,12 +95,12 @@ services:
     network_mode: host
     restart: unless-stopped
     environment:
-      WEB_PORT: 8820
+      WEB_PORT: 8820 #访问端口
     devices:
-      - /dev/snd:/dev/snd
+      - /dev/snd:/dev/snd #设备声卡
     volumes:
-      - ./conf:/app/conf
-      - /etc/machine-id:/host/etc/machine-id:ro
+      - ./conf:/app/conf #配置文件
+      - /sys/class/dmi/id:/host/sys/class/dmi/id:ro #硬件机器码
 ```
 
 
@@ -127,6 +125,9 @@ uv tool install --python 3.12 mixplay-hub
 
 ## 🎈 版本区别
 
+飞牛 fpk 和桌面端 uv 版本，正常重装系统，唯一机器码不变 (虚拟机、更换主板等除外)，Docker 版本请正确挂载 `/sys/class/dmi/id`。
+
+
 | 功能 | 普通用户 | 头号玩家 |
 | :---: | :---: | :---: |
 | Audio Hub 音频中枢 | ☑️ | ✅ |
@@ -134,13 +135,12 @@ uv tool install --python 3.12 mixplay-hub
 | 服务端音箱➡️AirPlay1、妙播、DLNA | ☑️ | ✅ |
 | AirPlay2 | ❌ | ✅ |
 | 全屋播放、串流节点 | ❌  | ✅ |
-| Plex/Caldera | ❌  | ✅ |
 
 ### 📢 上游鸣谢与合规说明
 
 本项目的基础协议、桥接能力整合了以下优秀的开源组件：
-- **小米云服务**：[miservice-fork](https://pypi.org/project/miservice-fork/) (MIT)
-- **小米妙播（MiPlay）**：[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android) (MIT)
+- **小米云服务**：[miservice](https://pypi.org/project/miservice/) (MIT)
+- **小米妙播（MiPlay）**：[FusionPlay-Android](https://github.com/rosienosiesie/FusionPlay-Android) (AGPL-3.0)
 - **隔空播放（AirPlay 1/2）**：[shairplay-rust](https://github.com/metaneutrons/shairplay-rust) (LGPL-3.0)
 
 > **💡 灵感与思路参考**：
@@ -151,21 +151,3 @@ uv tool install --python 3.12 mixplay-hub
 - **基础免费能力**：基于上述上游组件实现的基础功能**免费开放使用**。
 - **自研定制模块**：本项目自研的 `Audio Hub 音频中枢`、`MiXPlay 全屋播放`、`串流节点延迟对齐` 等组合玩法属于定制扩展包，仅供**头号玩家预览体验**。
 - **第三方开源许可全文**：详见项目中的 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) 与 [LICENSE](./LICENSE)。
----
-
-## 🔐 小米账号与登录凭证说明
-
-1. **登录方式推荐与区别**
-   - **米家 App 扫码登录 (推荐⭐️)**：  
-     通过移动端米家 App 原生扫码授权，获取官方长效根凭证 `passToken`。**有效期长达数月至半年**，且后台会自动无感静默续期，100% 绕过滑块验证码与异地风控。
-   - **手动 Cookie 登录 (备用)**：  
-     通过浏览器 F12 抓取网页版 Cookie（`userId` + `passToken`），作为备用方案。网页 Cookie 有效期相对较短（通常数周），且若在电脑浏览器点击“退出登录”会立即失效。
-
-2. **为什么不支持账号密码直接登录？**  
-   直接提交账号密码极易触发小米云端的安全风控（如图片验证码、短信二次验证、异地设备异常封禁），导致换票失败率极高，故不提供该方式。
-
-3. **自动续期原理**  
-   系统基于保存的 `passToken`，后台会自动向小爱云端静默换取播放所需的短期通行证（`serviceToken`，通常有效期 30 天），全自动轮转，日常使用无需手动干预。
-
-4. **安全与隐私提示**  
-   ⚠️ 小米的 `passToken` 为核心凭据，请妥善保管勿公开泄露。本项目纯内网个人使用，Web 控制台默认无需密码。如需外网访问，强烈建议配合 `Tailscale`、`Zerotier` 或 VPN 使用。
