@@ -123,6 +123,57 @@ uv tool install --python 3.12 mixplay-hub
 打开终端输入 `mixplay-desktop`，自动后台运行，系统托盘可快速打开控制台、查看日志或退出。
 
 
+### 3、声卡自检与故障排查（Docker / NAS）
+
+服务端声卡（`服务端音箱 ➡️ AirPlay1、妙播、DLNA`）依赖容器能访问宿主的 `/dev/snd`。出现「声卡设备：加载失败」或「播放测试：无法发声」时，先跑只读诊断：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/juneix/MiXPlay/main/scripts/check-audio.sh | bash
+# 或：bash scripts/check-audio.sh [容器名] [控制台端口]
+```
+
+脚本只读取信息，不修改配置、不重启容器。常见结论对照：
+
+| 诊断结果 | 原因 | 处理 |
+| :--- | :--- | :--- |
+| `devices` 不含 `/dev/snd` | 启动容器时没带设备映射 | 按上面的 compose 执行 `docker compose up -d --force-recreate` |
+| compose 写了 `/dev/snd`，`docker inspect` 里却没有 | 飞牛等 NAS 的图形界面「编辑 / 应用」容器会覆盖 devices（配置漂移） | 不要用图形界面改这个容器，配置一律走 compose 命令行 |
+| 容器内 `aplay -l` 正常，播放测试仍失败 | 镜像缺少测试音 `speaker-test.wav`（v1.4.6 及之前） | 见下方临时处理，与声卡无关 |
+| 「声卡设备」显示「加载失败」但接口 200 | 接口其实返回 `ok:true, devices:[]`，是**没有检测到声卡**，不是加载失败 | 按前两行检查设备映射 |
+| 日志出现 `49152 Address already in use` | 宿主 UPnP 服务占用了 DLNA 默认端口 | 服务会自动回退动态端口，不影响 AirPlay / 妙播 |
+
+手动核对：
+
+```bash
+docker inspect mixplay --format '{{json .HostConfig.Devices}}'
+docker exec mixplay aplay -l
+```
+
+> ⚠️ 重建容器前请保留 `./conf` 卷，小米登录态和音箱配置都在里面。
+
+**播放测试音缺失的临时处理**（v1.4.6 及之前）：生成一个短 wav 放到 `conf/`，再给 compose 加一条只读挂载。
+
+```bash
+python3 - <<'PY'
+import wave, struct, math
+n = 44100
+f = lambda i: int(6000 * math.sin(2 * math.pi * 440 * i / n))
+w = wave.open('./conf/speaker-test.wav', 'wb')
+w.setnchannels(2); w.setsampwidth(2); w.setframerate(n)
+w.writeframes(b''.join(struct.pack('<hh', f(i), f(i)) for i in range(n)))
+w.close()
+PY
+```
+
+```yaml
+    volumes:
+      - ./conf:/app/conf #配置文件
+      - ./conf/speaker-test.wav:/usr/local/lib/python3.12/site-packages/mixplay/web/static/speaker-test.wav:ro #补齐镜像缺失的测试音
+```
+
+改完执行 `docker compose up -d` 重建。注意挂载路径含 Python 版本号，升级镜像后若路径变化需同步调整。
+
+---
 ## 🎈 版本区别
 
 飞牛 fpk 和桌面端 uv 版本，正常重装系统，唯一机器码不变 (虚拟机、更换主板等除外)，Docker 版本请正确挂载 `/sys/class/dmi/id`。
